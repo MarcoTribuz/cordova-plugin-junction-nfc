@@ -1,0 +1,25 @@
+{
+  "name": "cordova-plugin-junction-nfc",
+  "version": "1.0.0",
+  "description": "Junction custom NFC reader — NDEF read (Android + iOS), drop-in for the legacy phonegap-nfc subset (nfc.addNdefListener / beginSession / bytesToString)",
+  "cordova": {
+    "id": "cordova-plugin-junction-nfc",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MarcoTribuz/cordova-plugin-junction-nfc.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "nfc",
+    "ndef"
+  ],
+  "author": "Marco Tribuzio",
+  "license": "MIT"
+}

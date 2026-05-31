@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="cordova-plugin-junction-nfc"
+        version="1.0.0">
+
+  <name>Junction NFC</name>
+  <description>Custom NDEF reader. Clobbers the global `nfc` object with the legacy phonegap-nfc subset used by the app: addNdefListener, beginSession, bytesToString.</description>
+  <license>MIT</license>
+
+  <engines>
+    <engine name="cordova" version=">=10.0.0"/>
+    <engine name="cordova-android" version=">=10.0.0"/>
+    <engine name="cordova-ios" version=">=6.0.0"/>
+  </engines>
+
+  <!-- Same global namespace as phonegap-nfc for drop-in compatibility (imports/ui/plugins/nfc.js unchanged) -->
+  <js-module src="www/nfc.js" name="JunctionNfc">
+    <clobbers target="nfc"/>
+  </js-module>
+
+  <!-- ─── Android ─────────────────────────────────────────────────────── -->
+  <platform name="android">
+
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="JunctionNfc">
+        <param name="android-package" value="com.junction.plugins.JunctionNfc"/>
+      </feature>
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest">
+      <uses-permission android:name="android.permission.NFC"/>
+    </config-file>
+
+    <source-file src="src/android/JunctionNfc.java"
+                 target-dir="src/com/junction/plugins"/>
+
+  </platform>
+
+  <!-- ─── iOS ─────────────────────────────────────────────────────────── -->
+  <platform name="ios">
+
+    <config-file target="config.xml" parent="/*">
+      <feature name="JunctionNfc">
+        <param name="ios-package" value="JunctionNfc"/>
+        <param name="onload" value="false"/>
+      </feature>
+    </config-file>
+
+    <!-- weak: deployment target is iOS 12; CoreNFC NDEF reading requires iOS 13 (guarded at runtime) -->
+    <framework src="CoreNFC.framework" weak="true"/>
+
+    <source-file src="src/ios/JunctionNfc.swift"/>
+
+    <!-- NFC reader entitlement (NDEF). NFCReaderUsageDescription lives in mobile-config.js -->
+    <config-file parent="com.apple.developer.nfc.readersession.formats"
+                 target="*/Entitlements-Debug.plist">
+      <array>
+        <string>NDEF</string>
+      </array>
+    </config-file>
+    <config-file parent="com.apple.developer.nfc.readersession.formats"
+                 target="*/Entitlements-Release.plist">
+      <array>
+        <string>NDEF</string>
+      </array>
+    </config-file>
+
+  </platform>
+
+</plugin>

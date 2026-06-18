@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-junction-nfc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Junction custom NFC reader — NDEF read (Android + iOS), drop-in for the legacy phonegap-nfc subset (nfc.addNdefListener / beginSession / bytesToString)",
   "cordova": {
     "id": "cordova-plugin-junction-nfc",

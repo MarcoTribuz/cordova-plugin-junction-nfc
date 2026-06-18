@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cordova-plugin-junction-nfc"
-        version="1.0.0">
+        version="1.0.1">
 
   <name>Junction NFC</name>
   <description>Custom NDEF reader. Clobbers the global `nfc` object with the legacy phonegap-nfc subset used by the app: addNdefListener, beginSession, bytesToString.</description>
@@ -52,17 +52,18 @@
 
     <source-file src="src/ios/JunctionNfc.swift"/>
 
-    <!-- NFC reader entitlement (NDEF). NFCReaderUsageDescription lives in mobile-config.js -->
+    <!-- NFC reader entitlement. iOS SDK 26+ disallows the NDEF format value and requires TAG
+         (TAG is a superset; NFCNDEFReaderSession still works). NFCReaderUsageDescription lives in mobile-config.js -->
     <config-file parent="com.apple.developer.nfc.readersession.formats"
                  target="*/Entitlements-Debug.plist">
       <array>
-        <string>NDEF</string>
+        <string>TAG</string>
       </array>
     </config-file>
     <config-file parent="com.apple.developer.nfc.readersession.formats"
                  target="*/Entitlements-Release.plist">
       <array>
-        <string>NDEF</string>
+        <string>TAG</string>
       </array>
     </config-file>
 

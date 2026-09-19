@@ -97,7 +97,13 @@ public class JunctionNfc extends CordovaPlugin {
             return;
         }
 
-        Parcelable[] rawMessages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+        Parcelable[] rawMessages;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Typed variant: untyped getParcelableArrayExtra(String) is deprecated since API 33.
+            rawMessages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES, NdefMessage.class);
+        } else {
+            rawMessages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+        }
         if (rawMessages == null || rawMessages.length == 0) return;
 
         try {
